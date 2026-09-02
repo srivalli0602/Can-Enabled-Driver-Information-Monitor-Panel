@@ -174,7 +174,7 @@ The LCD displays:
 | **MCP2551**                       | CAN transceiver              |
 | **16×2 LCD**                      | Displays vehicle information |
 | **DS18B20**                       | Digital temperature sensing  |
-| **Potentiometer / Analog source** | Simulates fuel-level sensor  |
+| **Fuel gauge** | Simulates fuel-level sensor  |
 | **LEDs**                          | Indicator visualization      |
 | **Push Buttons / Switches**       | Indicator input              |
 | **USB-UART Converter**            | Serial/debug interface       |
