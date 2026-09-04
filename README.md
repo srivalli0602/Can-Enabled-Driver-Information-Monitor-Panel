@@ -26,6 +26,7 @@
 * [💻 Software & Tools](#-software--tools)
 * [🧩 Node Architecture](#-node-architecture)
 * [📦 Module Development](#-module-development)
+
   * [LCD Module](#1️⃣-lcd-module)
   * [Delay Module](#2️⃣-delay-module)
   * [ADC Module](#3️⃣-adc-module)
@@ -79,11 +80,11 @@ Instead of implementing everything in one microcontroller, the functionality is 
 
 ### The project consists of three major nodes:
 
-| Node | Main Responsibility |
-|---|---|
-| 🖥️ **Main Node** | Vehicle display, temperature monitoring and indicator command generation |
-| ⛽ **Fuel Node** | Reads fuel level through ADC and transmits fuel percentage |
-| 💡 **Indicator Node** | Receives indicator commands and controls LEDs |
+| Node                  | Main Responsibility                                                      |
+| --------------------- | ------------------------------------------------------------------------ |
+| 🖥️ **Main Node**     | Vehicle display, temperature monitoring and indicator command generation |
+| ⛽ **Fuel Node**       | Reads fuel level through ADC and transmits fuel percentage               |
+| 💡 **Indicator Node** | Receives indicator commands and controls LEDs                            |
 
 The nodes communicate using the **CAN bus**.
 
@@ -129,53 +130,41 @@ The LCD displays:
 
 # 🏗️ System Architecture
 
-The system follows a **distributed automotive ECU architecture**, where the Main Node, Fuel Node, and Indicator Node perform dedicated functions and communicate through the **CAN bus**.
-
-### 📊 System Architecture Diagram
-
-<p align="center">
-  <img src="Media/Block%20Diagram.jpeg" alt="CAN-Based Driver Information and Monitoring Panel - System Architecture" width="900">
-</p>
-
-### 🖥️ Main Node
-
-* **LPC2129** acts as the central monitoring and control node.
-* Interfaces with the **DS18B20 temperature sensor**.
-* Interfaces with **EINT0 and EINT1** for indicator switch inputs.
-* Displays vehicle information on the **16×2 LCD**.
-* Receives fuel information through the **CAN bus**.
-* Sends indicator commands through the **CAN bus**.
-
-### ⛽ Fuel Node
-
-* **LPC2129** is used as the dedicated fuel-monitoring ECU.
-* Reads the analog fuel-level signal using the internal **ADC**.
-* Converts the ADC reading into **fuel percentage**.
-* Transmits the fuel information to the Main Node through **CAN**.
-
-### 💡 Indicator Node
-
-* **LPC2129** is used as the dedicated indicator-control ECU.
-* Receives indicator commands through the **CAN bus**.
-* Controls the **8 indicator LEDs**.
-* Produces the required left and right indicator LED sequences.
-
-### 📡 CAN Bus Communication
-
 ```text
-                         CAN BUS
-                            │
-          ┌─────────────────┼─────────────────┐
-          │                 │                 │
-          ▼                 ▼                 ▼
-    ┌───────────┐     ┌───────────┐     ┌──────────────┐
-    │ Main Node │     │ Fuel Node │     │ Indicator    │
-    │  LPC2129  │     │  LPC2129  │     │ Node LPC2129 │
-    └───────────┘     └───────────┘     └──────────────┘
-          │                 │                 │
-          ▼                 ▼                 ▼
-      LCD +             ADC + Fuel        8 LEDs +
-     DS18B20              Sensor          Indicators
+                         ┌─────────────────────┐
+                         │      MAIN NODE      │
+                         │      LPC2129        │
+                         │                     │
+                         │  ┌───────────────┐  │
+                         │  │   DS18B20     │  │
+                         │  │ Temperature   │  │
+                         │  └───────────────┘  │
+                         │                     │
+                         │  ┌───────────────┐  │
+                         │  │  EINT0/EINT1  │  │
+                         │  │ Indicator SW  │  │
+                         │  └───────────────┘  │
+                         │                     │
+                         │      16×2 LCD       │
+                         └─────────┬───────────┘
+                                   │
+                              CAN BUS
+                                   │
+             ┌─────────────────────┴─────────────────────┐
+             │                                           │
+             ▼                                           ▼
+   ┌─────────────────────┐                  ┌─────────────────────┐
+   │      FUEL NODE      │                  │   INDICATOR NODE    │
+   │      LPC2129        │                  │      LPC2129        │
+   │                     │                  │                     │
+   │   ADC + Fuel Input  │                  │    8 LEDs           │
+   │         │           │                  │                     │
+   │         ▼           │                  │ Left / Right        │
+   │ Fuel Percentage     │                  │ Indicator Control   │
+   └─────────────────────┘                  └─────────────────────┘
+```
+
+---
 
 # 🔩 Hardware Components
 
@@ -1306,3 +1295,4 @@ Automotive Embedded Systems
 **Built with Embedded C, LPC2129, CAN and Proteus**
 
 </p>
+I wanted to remove my system architure and replace that with above blockdiagram ,create that kind of block diagram and add .give update whole entire code without missing anything,
