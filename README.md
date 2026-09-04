@@ -21,7 +21,7 @@
 * [🎯 Project Aim](#-project-aim)
 * [💡 Project Overview](#-project-overview)
 * [✨ Key Features](#-key-features)
-* [🏗️ System Architecture](#️-system-architecture)
+* [🏗️ System Block Diagram](#system-block-diagram)
 * [🔩 Hardware Components](#-hardware-components)
 * [💻 Software & Tools](#-software--tools)
 * [🧩 Node Architecture](#-node-architecture)
@@ -128,43 +128,15 @@ The LCD displays:
 
 ---
 
-# 🏗️ System Architecture
+<a id="system-block-diagram"></a>
 
-```text
-                         ┌─────────────────────┐
-                         │      MAIN NODE      │
-                         │      LPC2129        │
-                         │                     │
-                         │  ┌───────────────┐  │
-                         │  │   DS18B20     │  │
-                         │  │ Temperature   │  │
-                         │  └───────────────┘  │
-                         │                     │
-                         │  ┌───────────────┐  │
-                         │  │  EINT0/EINT1  │  │
-                         │  │ Indicator SW  │  │
-                         │  └───────────────┘  │
-                         │                     │
-                         │      16×2 LCD       │
-                         └─────────┬───────────┘
-                                   │
-                              CAN BUS
-                                   │
-             ┌─────────────────────┴─────────────────────┐
-             │                                           │
-             ▼                                           ▼
-   ┌─────────────────────┐                  ┌─────────────────────┐
-   │      FUEL NODE      │                  │   INDICATOR NODE    │
-   │      LPC2129        │                  │      LPC2129        │
-   │                     │                  │                     │
-   │   ADC + Fuel Input  │                  │    8 LEDs           │
-   │         │           │                  │                     │
-   │         ▼           │                  │ Left / Right        │
-   │ Fuel Percentage     │                  │ Indicator Control   │
-   └─────────────────────┘                  └─────────────────────┘
-```
+# 🏗️ System Block Diagram
 
----
+The complete system architecture of the CAN-enabled driver information and monitoring panel is shown below.
+
+![CAN-Enabled Driver Information & Monitoring Panel Block Diagram](./Media/Block%20diagram.png)
+
+The system consists of three LPC2129 ARM7 nodes communicating through a common CAN bus using MCP2551 CAN transceivers.
 
 # 🔩 Hardware Components
 
